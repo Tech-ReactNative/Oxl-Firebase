@@ -1,6 +1,6 @@
 
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import 'react-native-gesture-handler';
 
@@ -8,7 +8,7 @@ import { StatusBar, StyleSheet, View } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme as DefaultThemeNav } from '@react-navigation/native';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './screens/LoginScreen';
@@ -18,6 +18,7 @@ import CreateAdScreen from './screens/CreateAdScreen';
 import HomeScreen from './screens/ListItemScreen';
 import Feather from 'react-native-vector-icons/Feather'
 import { create } from 'react-test-renderer';
+import auth from '@react-native-firebase/auth'
 
 const theme = {
   ...DefaultTheme,
@@ -27,17 +28,25 @@ const theme = {
   },
 };
 
+const MyTheme = {
+  ...DefaultThemeNav,
+  colors: {
+    ...DefaultThemeNav.colors,
+    background: 'white',
+  },
+};
+
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator();
 
 const AuthNavigator = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="signup" component={SignupScreen} options={{ headerShown: false }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    // <NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="signup" component={SignupScreen} options={{ headerShown: false }} />
+    </Stack.Navigator>
+    //  </NavigationContainer>
   )
 }
 
@@ -73,9 +82,20 @@ const TabNavigator = () => {
   )
 }
 const Navigation = () => {
-  const user = "abcd"
+  const [user, setUser] = useState('')
+  useEffect(() => {
+    const unsubscribe = auth().onAuthStateChanged((userExist) => {
+      if (userExist) {
+        setUser(userExist)
+      } else {
+        setUser('')
+      }
+    })
+    return unsubscribe
+
+  }, [])
   return (
-    <NavigationContainer>{
+    <NavigationContainer theme={MyTheme}>{
       user ? <TabNavigator /> : <AuthNavigator />
     }
     </NavigationContainer>
