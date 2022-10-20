@@ -1,9 +1,10 @@
-import { View, Image, StyleSheet, Text, KeyboardAvoidingView } from 'react-native'
+import { View, Image, StyleSheet, Text, KeyboardAvoidingView, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { TextInput, Button } from 'react-native-paper';
 
 
-const LoginScreen = () => {
+
+const LoginScreen = ({ navigation }) => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -33,11 +34,15 @@ const LoginScreen = () => {
           onChangeText={text => setPassword(text)}
         />
         <Button
-
           mode="contained" onPress={() => console.log('Pressed')}>
           Login
         </Button>
-
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('signup')
+          }}>
+          <Text style={{ textAlign: 'center' }}>Don't have a account ?</Text>
+        </TouchableOpacity>
 
       </View>
     </KeyboardAvoidingView>

@@ -1,9 +1,11 @@
-import { View, Image, StyleSheet, Text, KeyboardAvoidingView } from 'react-native'
+import { View, Image, StyleSheet, Text, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { TextInput, Button } from 'react-native-paper';
 
 
-const LoginScreen = () => {
+
+
+const SignupScreen = ({ navigation }) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -35,6 +37,13 @@ const LoginScreen = () => {
                 <Button mode="contained" onPress={() => console.log('Pressed')}>
                     Signup
                 </Button>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('login')
+                    }}>
+                    <Text style={{ textAlign: 'center' }}>Login ?</Text>
+                </TouchableOpacity>
+
 
 
             </View>
@@ -60,4 +69,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default LoginScreen
+export default SignupScreen
