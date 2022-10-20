@@ -39,7 +39,7 @@ const SignupScreen = ({ navigation }) => {
                 </Button>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate('login')
+                        navigation.goBack()
                     }}>
                     <Text style={{ textAlign: 'center' }}>Login ?</Text>
                 </TouchableOpacity>
